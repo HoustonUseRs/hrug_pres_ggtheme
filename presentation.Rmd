@@ -1,0 +1,156 @@
+---
+title: "Introduction to ggplot2 Themes"
+author: "Boyd Skelton (Energent Group)"
+date: "April 5, 2016"
+output: 
+  ioslides_presentation:
+    logo: common/logo_no_text.png
+---
+
+```{r setup, include=FALSE}
+source("load.R")
+knitr::opts_chunk$set(echo = TRUE)
+
+```
+## {.flexbox .vcenter}
+
+"There is no accounting for taste"
+
+## Default Theme
+
+```{r, echo = FALSE}
+
+p <- ggplot(data, aes(x=permit_year, y=total, fill=pad_factor)) +
+  geom_bar(position="fill", stat="identity") +
+  labs(
+    title= "Eagle Ford Well Pad Distribution",
+    x = "Permit Year",
+    y = "Pad Count",
+    fill = "Wells per Pad"
+  );p
+
+```
+
+## Custom Theme
+
+```{r, echo = FALSE}
+
+p + theme_eg() +
+    scale_fill_brewer(palette="Set1")
+
+```
+
+## ggplot Structure
+
+* Plot - entire plot
+* Panel - chart area
+* Legend
+* Axis 
+* Strip - facets
+
+## Plot
+
+```{r}
+
+p + theme(plot.background = element_rect(fill = "red"))
+
+```
+
+
+## Panel
+
+```{r}
+
+p + theme(panel.background = element_rect(fill = "red"))
+
+```
+
+## Legend
+
+```{r}
+
+p + theme(legend.background = element_rect(fill = "red"))
+
+```
+
+
+## Theme Basics
+
+* `element_text()` - style text objects (titles, labels, etc.)
+```{r}
+plot.title      = element_text(face="bold", color="red", size=15)
+```
+* `element_line()` - style line objects (axes, grid lines, ticks, etc.)
+```{r}
+axis.ticks      = element_line(colour = "black")
+```
+* `element_rect()` - style rect objects (backgrounds, borders)
+```{r}
+panel.border    = element_rect(fill = NA, colour = "white")
+```
+
+## Theme Basics (Continued)
+
+* `unit()` - change magnitude (margins)
+```{r}
+panel.margin     = unit(0.0, "lines")
+```
+
+To set something to nothing use `element_blank()`. For example, no border:
+
+```{r}
+panel.border     = element_blank()
+```
+
+## Implementing Your Own Theme
+
+1. Create a user-defined function
+2. Start with a base theme (`theme_bw`, `theme_gray`)
+3. Add additional themes to override (modify) the styles
+4. Add it to your plot with `+`
+
+```{r theme}
+
+# custom function
+custom_theme <- function(base_size = 10, base_family = "Helvetica")
+{
+  # start with base theme
+  theme_bw(base_size = base_size, base_family = base_family) + 
+  theme(
+    plot.title = element_text(face="bold", colour="red", 
+                              size=15, hjust=0.5, vjust=2)
+  )
+}
+
+```
+
+## Making Your Own Theme (Continued)
+
+```{r}
+# make title red
+p + custom_theme()
+```
+
+## Other Themes, Add-Ins, & Comments
+
+* **ggThemes** - CRAN Package of several popular themes (WSJ, Tableau, Excel, etc.)
+* **ggThemeAssist** - RStudio Add-in (first commit March 2016)
+
+**Comments**
+
+1. Be careful of older examples - several items deprecated/removed
+2. Things are quickly evolving making many "hacks" uncessary
+
+## Helpful Links
+
+**Theme Vignettes**
+
+http://docs.ggplot2.org/dev/vignettes/themes.html
+
+**ggThemes**
+
+https://cran.r-project.org/web/packages/ggthemes/vignettes/ggthemes.html
+
+**ggThemeAssist**
+
+https://github.com/calligross/ggthemeassist
