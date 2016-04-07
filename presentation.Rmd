@@ -128,7 +128,8 @@ custom_theme <- function(base_size = 10, base_family = "Helvetica")
 
 ```{r}
 # make title red
-p + custom_theme()
+p + custom_theme() # or use theme_set()
+
 ```
 
 ## Other Themes, Add-Ins, & Comments
@@ -139,7 +140,7 @@ p + custom_theme()
 **Comments**
 
 1. Be careful of older examples - several items deprecated/removed
-2. Things are quickly evolving making many "hacks" uncessary
+2. Things are quickly evolving making many "hacks" unnecessary
 
 ## Helpful Links
 
